@@ -1,0 +1,80 @@
+﻿@model IEnumerable<TrialDev.Models.JobVacancy>
+
+@{
+    ViewData["Title"] = "Recruitment Planning";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="card">
+    <div class="card-header">
+        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">
+            <i class="fa fa-user"></i> Add job vacancy
+        </a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VacancyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PeriodeStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PeriodeEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Slots)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VacancyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodeStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodeEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slots)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
