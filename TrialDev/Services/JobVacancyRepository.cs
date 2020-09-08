@@ -27,14 +27,33 @@ namespace TrialDev.Services
             return _context.JobVacancies.Where(a => a.JobId.Equals(id)).SingleOrDefault();
         }
 
-        public async Task<IEnumerable<JobVacancy>> GetJobVacancies()
+        public async Task<IEnumerable<JobVacancyDTO>> GetJobVacancies()
         {
-            return _context.JobVacancies.ToList();
+            List<JobVacancyDTO> data = _context.JobVacancies.Select(a => new JobVacancyDTO
+            {
+                JobId = a.JobId,
+                JobTitle = a.JobTitle,
+                Note = a.Note,
+                Period = a.PeriodeStart.ToString() + " - " + a.PeriodeEnd.ToString(),
+                Slots = a.Slots,
+                VacancyName = a.VacancyName,
+                CreatedDate = a.CreatedDate
+            }).ToList();
+
+            return data;
         }
 
-        public async Task Insert(JobVacancy jobVacancy)
+        public async Task Insert(JobVacancyDTO jobVacancyDTO)
         {
-            _context.Add(jobVacancy);
+            string[] period = jobVacancyDTO.Period.Split("-");
+            JobVacancy jv = new JobVacancy();
+            jv.JobTitle = jobVacancyDTO.JobTitle;
+            jv.VacancyName = jobVacancyDTO.VacancyName;
+            jv.PeriodeStart = Convert.ToDateTime(period[0]);
+            jv.PeriodeEnd = Convert.ToDateTime(period[1]);
+            jv.Slots = jobVacancyDTO.Slots ?? 0;
+            jv.Note = jobVacancyDTO.Note;
+            _context.Add(jv);
         }
 
         public async Task Save()
@@ -42,11 +61,19 @@ namespace TrialDev.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(JobVacancy jobVacancy)
+        public async Task Update(JobVacancyDTO jobVacancyDTO)
         {
-            _context.JobVacancies.Update(jobVacancy);
+            string[] period = jobVacancyDTO.Period.Split("-");
+            JobVacancy jv = new JobVacancy();
+            jv.JobTitle = jobVacancyDTO.JobTitle;
+            jv.VacancyName = jobVacancyDTO.VacancyName;
+            jv.PeriodeStart = Convert.ToDateTime(period[0]);
+            jv.PeriodeEnd = Convert.ToDateTime(period[1]);
+            jv.Slots = jobVacancyDTO.Slots ?? 0;
+            jv.Note = jobVacancyDTO.Note;
+            _context.JobVacancies.Update(jv);
         }
 
-        
+
     }
 }

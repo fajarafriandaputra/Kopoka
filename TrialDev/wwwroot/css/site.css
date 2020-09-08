@@ -1,15 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
     padding-bottom: 20px;
 }
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 70px 25px 50px 25px;
 }
 
 /* Carousel */
@@ -34,4 +33,37 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+
+.cookie_box {
+    background: #fbfbfb;
+    width: 100%;
+    padding: 17px 20px;
+    -webkit-box-shadow: -2px -13px 23px -20px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -2px -13px 23px -20px rgba(0, 0, 0, 0.75);
+    box-shadow: -2px -13px 23px -20px rgba(0, 0, 0, 0.75);
+    color: #fff;
+    z-index: 999999999;
+    -webkit-transition: transform 0.5s ease-in;
+    -o-transition: transform 0.5s ease-in;
+    transition: transform 0.5s ease-in;
+}
+
+.seers-cx-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    z-index: 999999999;
+    -webkit-transform: translateY(0%) !important;
+    -ms-transform: translateY(0%) !important;
+    transform: translateY(0%) !important;
+    box-sizing: border-box;
+}
+
+.cookie_text_box {
+    float: left;
+    width: 70%;
+    padding-right: 215px;
+    padding-left: 4%;
 }

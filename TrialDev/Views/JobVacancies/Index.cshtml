@@ -1,4 +1,7 @@
-﻿@model IEnumerable<TrialDev.Models.JobVacancy>
+﻿@*@model IEnumerable<TrialDev.Models.JobVacancyDTO>*@
+
+@inject TrialDev.Services.JobVacancyRepository _jobVacancyRepository
+@model JobVacancyDTO
 
 @{
     ViewData["Title"] = "Recruitment Planning";
@@ -6,75 +9,160 @@
 
 <h2>@ViewBag.Title</h2>
 
+
+<div class="input-group">
+    <div class="input-group-prepend dropdown">
+        <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown">
+            Search
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Job Title</a>
+            <a class="dropdown-item" href="#">Name</a>
+            <a class="dropdown-item" href="#">Period</a>
+            <a class="dropdown-item" href="#">Status</a>
+        </div>
+    </div>
+    <input type="text" class="form-control">
+    <div class="input-group-append">
+        <button class="btn btn-navbar" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</div>
+
+
+<hr />
 <div class="card">
     <div class="card-header">
-        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default">
+        @*<a asp-action="Create" class="btn btn-sm btn-primary"><i class="fa fa-user"></i> Add job vacancy</a>*@
+        <a href="#" onclick="Add()" class="btn btn-sm btn-primary">
             <i class="fa fa-user"></i> Add job vacancy
         </a>
     </div>
     <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Name</th>
+                    <th>Periode</th>
+                    <th>Slots</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in await _jobVacancyRepository.GetJobVacancies())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VacancyName)
+                            <br />
+                            <small>
+                                Added @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </small>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Period)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Slots)
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="ViewEdit('@item.JobId','@item.JobTitle','@item.VacancyName','@item.Period','@item.Slots','@item.Note')"><i class="fa fa-pencil"></i> Edit</a> |
+                            <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.JobId"><i class="fa fa-search"></i> Details</a> |
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.JobId"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JobTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VacancyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PeriodeStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PeriodeEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Slots)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Note)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacancyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodeStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodeEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slots)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
-            </td>
-        </tr>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add job vacancy</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Create">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="JobTitle" class="control-label"></label><span style="color: red;">*</span>
+                        <input asp-for="JobTitle" class="form-control" />
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VacancyName" class="control-label"></label>
+                        <input asp-for="VacancyName" class="form-control" />
+                        <span asp-validation-for="VacancyName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Period" class="control-label"></label><span style="color: red;">*</span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" asp-for="Period" class="form-control float-right" />
+                        </div>
+                        @*<input asp-for="Period" type="date" class="form-control" />*@
+                        <span asp-validation-for="Period" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Slots" class="control-label"></label>
+                        <input asp-for="Slots" class="form-control" />
+                        <span asp-validation-for="Slots" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note" class="control-label"></label>
+                        <textarea asp-for="Note" rows="5" cols="40" class="form-control"></textarea>
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default btn-sm" href="#" data-dismiss="modal">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            $('#Period').daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY'
+                },
+                opens: 'left'
+            }, function (start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        })
+
+
+        function ViewEdit(JobId, JobTitle, VacancyName, Period, Slots, Note) {
+            console.log(JobId)
+            $('#modal-default').modal('show');
+        }
+
+        function Add()
+        {
+            $('#modal-default').modal('show');
+        }
+    </script>
 }
-    </tbody>
-</table>

@@ -8,28 +8,41 @@
 
 @if (showBanner)
 {
-    <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-bottom" role="alert">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
-                    <span class="sr-only">Toggle cookie consent banner</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
-            </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
-                </p>
-                <div class="navbar-right">
-                    <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
-                    <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
+    //navbar navbar-expand-lg navbar-dark bg-dark sticky-top
+    @*<nav id="cookieConsent" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-bottom" role="alert">
+            <div class="container">
+                <div class="navbar-hea">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
+                        <span class="sr-only">Toggle cookie consent banner</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="navbar-brand"><span class="fa fa-info" aria-hidden="true"></span></span>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <p class="navbar-text">
+                        Use this space to summarize your privacy and cookie use policy.
+                    </p>
+                    <div class="navbar-right">
+                        <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
+                        <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
+                    </div>
                 </div>
             </div>
+        </nav>*@
+    <div id="cookieConsent" class="cookie_box seers-cx-show seers-cx-bottom-bar" style="color:#000000 !important; font-family:arial !important;background:#FFFFFF !important;">
+        <div class="cookie_text_box">
+            <h3 class="cookie_cc_heading" style="color:#000000 !important; font-size: 16px !important; font-family: arial!important">Use this space to summarize your privacy and cookie use policy.</h3>
         </div>
-    </nav>
+        <div class="button_box">
+            <div class="button_postion">
+                <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
+                <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">Accept</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function () {
             document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {

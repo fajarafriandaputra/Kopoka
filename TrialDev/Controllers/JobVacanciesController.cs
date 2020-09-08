@@ -21,9 +21,9 @@ namespace TrialDev.Controllers
         }
 
         // GET: JobVacancies
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _IjobVacancy.GetJobVacancies());
+            return View();
         }
 
         // GET: JobVacancies/Details/5
@@ -51,15 +51,15 @@ namespace TrialDev.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JobVacancy jobVacancy)
+        public async Task<IActionResult> Create(JobVacancyDTO jobVacancyDTO)
         {
             if (ModelState.IsValid)
             {
-                await _IjobVacancy.Insert(jobVacancy);
+                await _IjobVacancy.Insert(jobVacancyDTO);
                 await _IjobVacancy.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(jobVacancy);
+            return View(jobVacancyDTO);
         }
 
         // GET: JobVacancies/Edit/5
@@ -80,15 +80,15 @@ namespace TrialDev.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(JobVacancy jobVacancy)
+        public async Task<IActionResult> Edit(JobVacancyDTO jobVacancyDTO)
         {
             if (ModelState.IsValid)
             {
-                await _IjobVacancy.Update(jobVacancy);
+                await _IjobVacancy.Update(jobVacancyDTO);
                 await _IjobVacancy.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(jobVacancy);
+            return View(jobVacancyDTO);
         }
 
         // GET: JobVacancies/Delete/5

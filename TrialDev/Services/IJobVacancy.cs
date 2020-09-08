@@ -6,11 +6,11 @@ namespace TrialDev.Services
 {
     public interface IJobVacancy
     {
-        Task<IEnumerable<JobVacancy>> GetJobVacancies();
+        Task<IEnumerable<JobVacancyDTO>> GetJobVacancies();
         Task Save();
-        Task Insert(JobVacancy jobVacancy);
+        Task Insert(JobVacancyDTO jobVacancyDTO);
         Task Delete(int id);
-        Task Update(JobVacancy jobVacancy);
+        Task Update(JobVacancyDTO jobVacancyDTO);
         Task<JobVacancy> getById(int? id);
     }
 }

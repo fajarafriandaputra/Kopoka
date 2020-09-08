@@ -10,6 +10,11 @@ namespace TrialDev.Models
 {
     public class JobVacancy
     {
+        public JobVacancy()
+        {
+            CreatedDate = DateTime.Now;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int JobId { get; set; }
@@ -24,8 +29,10 @@ namespace TrialDev.Models
         public string VacancyName { get; set; }
         
         [Required]
+        [Column(TypeName = "date")]
         public DateTime PeriodeStart { get; set; }
         [Required]
+        [Column(TypeName = "date")]
         public DateTime PeriodeEnd { get; set; }
         public int Slots { get; set; }
 
