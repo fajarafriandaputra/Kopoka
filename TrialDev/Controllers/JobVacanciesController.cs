@@ -92,31 +92,35 @@ namespace TrialDev.Controllers
         }
 
         // GET: JobVacancies/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var jobVacancy = await _IjobVacancy.getById(id);
-            if (jobVacancy == null)
-            {
-                return NotFound();
-            }
-
-            return View(jobVacancy);
-        }
-
-        // POST: JobVacancies/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
             await _IjobVacancy.Delete(id);
             await _IjobVacancy.Save();
             return RedirectToAction(nameof(Index));
         }
+
+        // POST: JobVacancies/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (id != null && id > 0)
+        //    {
+        //        await _IjobVacancy.Delete(id);
+        //        await _IjobVacancy.Save();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+
+        //}
 
         //private bool JobVacancyExists(int id)
         //{

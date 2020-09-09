@@ -11,6 +11,6 @@ namespace TrialDev.Services
         Task Insert(JobVacancyDTO jobVacancyDTO);
         Task Delete(int id);
         Task Update(JobVacancyDTO jobVacancyDTO);
-        Task<JobVacancy> getById(int? id);
+        Task<JobVacancyDTO> getById(int? id);
     }
 }

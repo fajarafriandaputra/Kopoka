@@ -1,4 +1,4 @@
-﻿@model TrialDev.Models.JobVacancy
+﻿@model TrialDev.Models.JobVacancyDTO
 
 @{
     ViewData["Title"] = "Delete";
@@ -24,16 +24,10 @@
             @Html.DisplayFor(model => model.VacancyName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PeriodeStart)
+            @Html.DisplayNameFor(model => model.Period)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PeriodeStart)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PeriodeEnd)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PeriodeEnd)
+            @Html.DisplayFor(model => model.Period)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Slots)

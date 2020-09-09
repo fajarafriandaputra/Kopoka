@@ -29,13 +29,11 @@
         </button>
     </div>
 </div>
-
-
 <hr />
 <div class="card">
     <div class="card-header">
         @*<a asp-action="Create" class="btn btn-sm btn-primary"><i class="fa fa-user"></i> Add job vacancy</a>*@
-        <a href="#" onclick="Add()" class="btn btn-sm btn-primary">
+        <a href="javascript:void(0)" onclick="Add()" class="btn btn-sm btn-primary">
             <i class="fa fa-user"></i> Add job vacancy
         </a>
     </div>
@@ -61,7 +59,7 @@
                             @Html.DisplayFor(modelItem => item.VacancyName)
                             <br />
                             <small>
-                                Added @Html.DisplayFor(modelItem => item.CreatedDate)
+                                Added @Convert.ToDateTime(item.CreatedDate).ToString("dd.MM.yyyy")
                             </small>
                         </td>
                         <td>
@@ -71,9 +69,8 @@
                             @Html.DisplayFor(modelItem => item.Slots)
                         </td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary" onclick="ViewEdit('@item.JobId','@item.JobTitle','@item.VacancyName','@item.Period','@item.Slots','@item.Note')"><i class="fa fa-pencil"></i> Edit</a> |
-                            <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@item.JobId"><i class="fa fa-search"></i> Details</a> |
-                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@item.JobId"><i class="fa fa-trash"></i> Delete</a>
+                            <a asp-action="Details" class="btn btn-sm btn-primary" asp-route-id="@item.JobId"><i class="fa fa-folder"></i> View</a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="Delete('@item.JobId')"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                     </tr>
                 }
@@ -86,7 +83,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add job vacancy</h4>
+                <h4 class="modal-title">Add Job Vacancy</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -100,7 +97,7 @@
                         <span asp-validation-for="JobTitle" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="VacancyName" class="control-label"></label>
+                        <label asp-for="VacancyName" class="control-label">Vacancy Name</label>
                         <input asp-for="VacancyName" class="form-control" />
                         <span asp-validation-for="VacancyName" class="text-danger"></span>
                     </div>
@@ -114,7 +111,6 @@
                             </div>
                             <input type="text" asp-for="Period" class="form-control float-right" />
                         </div>
-                        @*<input asp-for="Period" type="date" class="form-control" />*@
                         <span asp-validation-for="Period" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -146,23 +142,27 @@
         $(function () {
             $('#Period').daterangepicker({
                 locale: {
-                    format: 'MM/DD/YYYY'
+                    format: 'YYYY/MM/DD'
                 },
                 opens: 'left'
-            }, function (start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         })
 
-
-        function ViewEdit(JobId, JobTitle, VacancyName, Period, Slots, Note) {
-            console.log(JobId)
+        function Add() {
             $('#modal-default').modal('show');
         }
 
-        function Add()
-        {
-            $('#modal-default').modal('show');
+        function Delete(JobId) {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure you want to delete this?',
+                buttons: {
+                    confirm: function () {
+                        window.location.href = '/JobVacancies/Delete/' + JobId;
+                    },
+                    cancel: function () { }
+                }
+            });
         }
     </script>
 }

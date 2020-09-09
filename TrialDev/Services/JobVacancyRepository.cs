@@ -18,13 +18,27 @@ namespace TrialDev.Services
 
         public async Task Delete(int id)
         {
-            JobVacancy jv = await getById(id);
-            _context.Remove(jv);
+            JobVacancy jv = _context.JobVacancies.Find(id);
+            if(jv != null)
+            {
+                _context.Remove(jv);
+            }
         }
 
-        public async Task<JobVacancy> getById(int? id)
+        public async Task<JobVacancyDTO> getById(int? id)
         {
-            return _context.JobVacancies.Where(a => a.JobId.Equals(id)).SingleOrDefault();
+            JobVacancyDTO data  = _context.JobVacancies.Where(a => a.JobId.Equals(id)).Select(a => new JobVacancyDTO
+            {
+                JobId = a.JobId,
+                JobTitle = a.JobTitle,
+                Note = a.Note,
+                Period = a.PeriodeStart.ToString() + " - " + a.PeriodeEnd.ToString(),
+                Slots = a.Slots,
+                VacancyName = a.VacancyName,
+                CreatedDate = a.CreatedDate
+            }).SingleOrDefault();
+
+            return data;
         }
 
         public async Task<IEnumerable<JobVacancyDTO>> GetJobVacancies()
@@ -34,7 +48,7 @@ namespace TrialDev.Services
                 JobId = a.JobId,
                 JobTitle = a.JobTitle,
                 Note = a.Note,
-                Period = a.PeriodeStart.ToString() + " - " + a.PeriodeEnd.ToString(),
+                Period = a.PeriodeStart.ToString("MMMM dd,yyyy") + " - " + a.PeriodeEnd.ToString("MMMM dd,yyyy"),
                 Slots = a.Slots,
                 VacancyName = a.VacancyName,
                 CreatedDate = a.CreatedDate
@@ -64,7 +78,9 @@ namespace TrialDev.Services
         public async Task Update(JobVacancyDTO jobVacancyDTO)
         {
             string[] period = jobVacancyDTO.Period.Split("-");
-            JobVacancy jv = new JobVacancy();
+
+
+            JobVacancy jv = _context.JobVacancies.FirstOrDefault(a=>a.JobId.Equals(jobVacancyDTO.JobId));
             jv.JobTitle = jobVacancyDTO.JobTitle;
             jv.VacancyName = jobVacancyDTO.VacancyName;
             jv.PeriodeStart = Convert.ToDateTime(period[0]);
